@@ -14,7 +14,8 @@ import Typography from '@mui/material/Typography';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import AnimateButton from 'ui-component/extended/AnimateButton';
-import { registerUser } from 'services/authService'; // Importa tu servicio Axios
+import { registerUser } from 'services/authService';
+import { Link } from 'react-router-dom';
 
 const AuthRegister = ({ ...others }) => {
     const theme = useTheme();
@@ -234,9 +235,19 @@ const AuthRegister = ({ ...others }) => {
                                     variant="contained"
                                     color="secondary"
                                 >
-                                    Sign up
+                                    Register
                                 </Button>
                             </AnimateButton>
+                        </Box>
+                        <Box sx={{ mt: 2, textAlign: 'right' }}>
+                            <Typography variant="body2">
+                                <Link
+                                    to="/pages/authentication/verify-otp"
+                                    style={{ textDecoration: 'none', color: theme.palette.primary.main }}
+                                >
+                                    Verify OTP
+                                </Link>
+                            </Typography>
                         </Box>
                     </form>
                 )}

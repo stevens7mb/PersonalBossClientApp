@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
-import { Button, Snackbar, Alert, FormHelperText } from '@mui/material';
+import { Button, Snackbar, Alert, FormHelperText, IconButton } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -14,6 +14,7 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import logoImage from 'assets/images/PureCipher-PrimaryLogo-BlackBlue.png';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { generateSignedUrl } from 'services/softwareDelivery';
 
 const GenerateSignedUrl = ({ ...others }) => {
@@ -36,6 +37,15 @@ const GenerateSignedUrl = ({ ...others }) => {
                 <Grid item xs={12}>
                     <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: 'calc(100vh - 68px)' }}>
                         <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
+                            {/* Back Button */}
+                            <IconButton
+                                component={Link}
+                                to="/pages/authentication/verify-otp"
+                                sx={{ position: 'absolute', left: 16, top: 16 }}
+                                color="primary"
+                            >
+                                <ArrowBackIcon />
+                            </IconButton>
                             <AuthCardWrapper>
                                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                                     {/* Logo */}
@@ -81,7 +91,8 @@ const GenerateSignedUrl = ({ ...others }) => {
                                                 } catch (error) {
                                                     setSubmitting(false);
                                                     setStatus({ success: false });
-                                                    const errorMessage = error?.detail?.map(e => e.msg).join(', ') || 'Error generating signed URL';
+                                                    const errorMessage =
+                                                        error?.detail?.map((e) => e.msg).join(', ') || 'Error generating signed URL';
                                                     setErrors({ submit: errorMessage });
                                                     setSnackbarMessage(errorMessage);
                                                     setSnackbarSeverity('error');
@@ -89,7 +100,16 @@ const GenerateSignedUrl = ({ ...others }) => {
                                                 }
                                             }}
                                         >
-                                            {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values, status }) => (
+                                            {({
+                                                errors,
+                                                handleBlur,
+                                                handleChange,
+                                                handleSubmit,
+                                                isSubmitting,
+                                                touched,
+                                                values,
+                                                status
+                                            }) => (
                                                 <form noValidate onSubmit={handleSubmit} {...others}>
                                                     <Grid container spacing={matchDownSM ? 0 : 2}>
                                                         <Grid item xs={12}>
@@ -125,7 +145,6 @@ const GenerateSignedUrl = ({ ...others }) => {
                                                             </Button>
                                                         </AnimateButton>
                                                     </Box>
-
                                                     {/* Error Message */}
                                                     {status?.submit && (
                                                         <Box sx={{ mt: 3 }}>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
-import { Button, Snackbar, Alert, FormHelperText } from '@mui/material';
+import { Button, Snackbar, Alert, FormHelperText, IconButton } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -14,12 +14,13 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import logoImage from 'assets/images/PureCipher-PrimaryLogo-BlackBlue.png';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { verifyOtp } from 'services/authService';
 
 const AuthVerifyOtp = ({ ...others }) => {
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-    
+
     // States for Snackbar
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -36,6 +37,15 @@ const AuthVerifyOtp = ({ ...others }) => {
                 <Grid item xs={12}>
                     <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: 'calc(100vh - 68px)' }}>
                         <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
+                            {/* Back Button */}
+                            <IconButton
+                                component={Link}
+                                to="/pages/authentication/register"
+                                sx={{ position: 'absolute', left: 16, top: 16 }}
+                                color="primary"
+                            >
+                                <ArrowBackIcon />
+                            </IconButton>
                             <AuthCardWrapper>
                                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                                     {/* Logo */}
@@ -49,7 +59,7 @@ const AuthVerifyOtp = ({ ...others }) => {
                                     <Grid item xs={12}>
                                         <Stack alignItems="center" justifyContent="center" spacing={1}>
                                             <Typography color="secondary.main" gutterBottom variant={matchDownSM ? 'h3' : 'h2'}>
-                                                Sign up
+                                                Verify OTP
                                             </Typography>
                                             <Typography variant="caption" fontSize="16px" textAlign={{ xs: 'center', md: 'inherit' }}>
                                                 Enter your information
@@ -83,7 +93,8 @@ const AuthVerifyOtp = ({ ...others }) => {
                                                 } catch (error) {
                                                     setSubmitting(false);
                                                     setStatus({ success: false });
-                                                    const errorMessage = error?.detail?.map(e => e.msg).join(', ') || 'Error verifying OTP';
+                                                    const errorMessage =
+                                                        error?.detail?.map((e) => e.msg).join(', ') || 'Error verifying OTP';
                                                     setErrors({ submit: errorMessage });
                                                     setSnackbarMessage(errorMessage);
                                                     setSnackbarSeverity('error');
@@ -91,7 +102,16 @@ const AuthVerifyOtp = ({ ...others }) => {
                                                 }
                                             }}
                                         >
-                                            {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values, status }) => (
+                                            {({
+                                                errors,
+                                                handleBlur,
+                                                handleChange,
+                                                handleSubmit,
+                                                isSubmitting,
+                                                touched,
+                                                values,
+                                                status
+                                            }) => (
                                                 <form noValidate onSubmit={handleSubmit} {...others}>
                                                     <Grid container spacing={matchDownSM ? 0 : 2}>
                                                         <Grid item xs={12}>
@@ -142,6 +162,16 @@ const AuthVerifyOtp = ({ ...others }) => {
                                                                 Verify OTP
                                                             </Button>
                                                         </AnimateButton>
+                                                    </Box>
+                                                    <Box sx={{ mt: 2, textAlign: 'right' }}>
+                                                        <Typography variant="body2">
+                                                            <Link
+                                                                to="/pages/software-delivery/generate-signed-url"
+                                                                style={{ textDecoration: 'none', color: theme.palette.primary.main }}
+                                                            >
+                                                                Generated Signed URL
+                                                            </Link>
+                                                        </Typography>
                                                     </Box>
 
                                                     {/* Error Message */}
